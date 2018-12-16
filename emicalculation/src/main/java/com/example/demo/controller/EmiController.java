@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.example.demo.model.Input;
-
+import com.example.demo.model.Output;
 import com.example.demo.service.Calculation;
 
 
@@ -34,10 +34,11 @@ public class EmiController {
 				
 	}
 	@RequestMapping(value="/show", method= RequestMethod.POST)
-public String print(@ModelAttribute("user")Input input)	{
+public String print(@ModelAttribute("user")Input input,Model model)	{
 		
 		
 	calculation.method(input);
+	model.addAttribute("outputs",new Output());
 	return " Display";
 		
 //		

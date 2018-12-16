@@ -23,12 +23,13 @@ public class Calculation implements CustomerServiceInterface{
 	static boolean installmentAmountFlag = true;
 
 	//after addung unimplement method ..override annotation cause error
+	
 	public void method(Input input) {
 		float loanAmount= input.getLoanAmount();
 		float rateOfInterest=input.getRateOfInterest();
 		float tenure=input.getTenure();
 		float numberofInstallments=input.getNumberofInstallments();
-		for (int i1 = 0; i1 <= 12; i1++) {
+		for (int i1 = 0; i1 <= numberofInstallments; i1++) {
 
 			loanAmount =  calculateEMI(i1, loanAmount, rateOfInterest, tenure, numberofInstallments);
 		}
@@ -36,9 +37,9 @@ public class Calculation implements CustomerServiceInterface{
 		
 	}
 
-	public float calculateEMI(int i,float loanAmount, float rateOfInterest, float tenure, float numberOfInstallments) {
+	public float calculateEMI(int value,float loanAmount, float rateOfInterest, float tenure, float numberOfInstallments) {
 
-	
+		
 		float num = ((rateOfInterest / 100) / numberOfInstallments);
 		float num1 = loanAmount * ((rateOfInterest / 100) / numberOfInstallments);
 		float denom = 1 + num;
@@ -56,22 +57,23 @@ public class Calculation implements CustomerServiceInterface{
 	
 		
 		DecimalFormat formatter = new DecimalFormat("0.00");
-	Float outstandingPrinciple1 = Float.parseFloat(formatter.format(principle));
+	Float outstandingPrinciple1 = Float.parseFloat(formatter.format(loanAmount));
 	Float interest = Float.parseFloat(formatter.format(num1));
 	Float loanAmount1 = Float.parseFloat(formatter.format(principle));
-	Float installmentAmount1 = Float.parseFloat(formatter.format(installmentAmount));
+//	Float installmentAmount1 = Float.parseFloat(formatter.format(installmentAmount));
 	
 	Output output = new Output();
 	output.setLoanAmount(loanAmount1);
+	
 	output.setInterest(interest);
 	output.setOutstandingPrinciple(outstandingPrinciple1);
-	output.setId(i);
-	output.setInstallmentAmount(installmentAmount1);
+	output.setId(value);
+	output.setInstallmentAmount(Calculation.installmentAmount);
 	customerrepo.save(output);
 	
 	
 	
-	System.out.println(i + "  " + formatter.format(loanAmount) + "     " + formatter.format(num1) + "  "
+	System.out.println(value + "  " + formatter.format(loanAmount) + "     " + formatter.format(num1) + "  "
 			+ formatter.format(principle) + "  " + formatter.format(installmentAmount));
 //
 
